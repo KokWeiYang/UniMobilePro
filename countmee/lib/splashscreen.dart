@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Container(
                 margin: EdgeInsets.all(50),
-                child: Image.asset('assets/images/touringholic.png'))
+                child: Image.asset('assets/images/logo.png'))
           ],
         ),
       ),

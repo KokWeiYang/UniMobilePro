@@ -16,6 +16,9 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
   SharedPreferences prefs;
+  TextEditingController _forgotemailcontroller = TextEditingController();
+  TextEditingController _forgotnewpasscontroller = TextEditingController();
+  TextEditingController _forgotconpasscontroller = TextEditingController();
 
   @override
   void initState() {
@@ -103,19 +106,67 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
-                        child: Text("Forgot Password?",
+                        child: RichText(
+                          text: TextSpan(
+                            text: '',
                             style: TextStyle(
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline)),
+                                color: Colors.black,
+                                decoration: TextDecoration.underline),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'F',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'orgot ',
+                              ),
+                              TextSpan(
+                                text: 'P',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'assword?',
+                              ),
+                            ],
+                          ),
+                        ),
                         onTap: _forgotPassword,
                       ),
                       GestureDetector(
-                        child: Text("Not registered yet?",
+                        child: RichText(
+                          text: TextSpan(
+                            text: '',
                             style: TextStyle(
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline)),
+                                color: Colors.black,
+                                decoration: TextDecoration.underline),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'N',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'ot ',
+                              ),
+                              TextSpan(
+                                text: 'R',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'egistered yet?',
+                              ),
+                            ],
+                          ),
+                        ),
                         onTap: _registerNewUser,
                       ),
                     ],
@@ -168,7 +219,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void _forgotPassword() {
     showDialog(
         context: context,
-        builder: (ctxDialog) => SingleChildScrollView(child: forgetDialog()));
+        builder: (ctxDialog) =>
+            SingleChildScrollView(child: forgetemailDialog()));
   }
 
   void _onChange(bool value) {
@@ -203,7 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
-          backgroundColor: Color.fromRGBO(191, 30, 46, 50),
+          backgroundColor: Color.fromRGBO(30, 191, 46, 50),
           textColor: Colors.white,
           fontSize: 16.0);
       return;
@@ -216,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
-          backgroundColor: Color.fromRGBO(191, 30, 46, 50),
+          backgroundColor: Color.fromRGBO(30, 191, 46, 50),
           textColor: Colors.white,
           fontSize: 16.0);
       setState(() {
@@ -255,11 +307,11 @@ class _LoginScreenState extends State<LoginScreen> {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            backgroundColor: Color.fromRGBO(191, 30, 46, 50),
+            backgroundColor: Color.fromRGBO(30, 191, 46, 50),
             textColor: Colors.white,
             fontSize: 16.0);
-            Navigator.pop(context);
-      } else if(response.body == "failed1") {
+        Navigator.pop(context);
+      } else if (response.body == "failed1") {
         Fluttertoast.showToast(
             msg: "Failed, confirm password wrong",
             toastLength: Toast.LENGTH_SHORT,
@@ -268,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Color.fromRGBO(191, 30, 46, 50),
             textColor: Colors.white,
             fontSize: 16.0);
-      }else if(response.body == "failed2") {
+      } else if (response.body == "failed2") {
         Fluttertoast.showToast(
             msg: "Failed, not found this email",
             toastLength: Toast.LENGTH_SHORT,
@@ -277,7 +329,7 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Color.fromRGBO(191, 30, 46, 50),
             textColor: Colors.white,
             fontSize: 16.0);
-      }else{
+      } else {
         Fluttertoast.showToast(
             msg: "Failed, not verify account yet",
             toastLength: Toast.LENGTH_SHORT,
@@ -290,14 +342,13 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  forgetDialog() {
-    TextEditingController _forgotemailcontroller = TextEditingController();
-    TextEditingController _forgotnewpasscontroller = TextEditingController();
-    TextEditingController _forgotconpasscontroller = TextEditingController();
+  forgetemailDialog() {
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
       title: Text("Forgot Password? \n Please enter your:"),
       content: new Container(
-          height: 330,
+          height: 200,
           child: Column(
             children: [
               Row(
@@ -313,70 +364,16 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 40,
               ),
-              Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      text: '',
-                      style: TextStyle(color: Colors.black),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: 'NEW',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
-                        TextSpan(
-                          text: ' password:',
-                          style: TextStyle(color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              TextField(
-                controller: _forgotnewpasscontroller,
-                decoration: InputDecoration(
-                    labelText: 'New Password', icon: Icon(Icons.lock_outlined)),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      text: '',
-                      style: TextStyle(color: Colors.black),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: 'NEW',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
-                        TextSpan(
-                          text: ' password again:',
-                          style: TextStyle(color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              TextField(
-                controller: _forgotconpasscontroller,
-                decoration: InputDecoration(
-                    labelText: 'Confirm Password',
-                    icon: Icon(Icons.lock_outlined)),
-              ),
             ],
           )),
       actions: [
         TextButton(
-          child: Text("Submit"),
+          child: Text("Next"),
           onPressed: () {
-            _resetPassword(_forgotemailcontroller.text,
-                _forgotnewpasscontroller.text, _forgotconpasscontroller.text);
+            showDialog(
+                context: context,
+                builder: (ctxDialog) =>
+                    SingleChildScrollView(child: forgetpassDialog()));
           },
         ),
         TextButton(
@@ -386,5 +383,90 @@ class _LoginScreenState extends State<LoginScreen> {
             }),
       ],
     );
+  }
+
+  forgetpassDialog() {
+    return AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        title: Text("Forgot Password? \n Please enter your:"),
+        content: new Container(
+          height: 200,
+          child: Column(children: [
+            Row(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: '',
+                    style: TextStyle(color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'NEW',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                      TextSpan(
+                        text: ' password:',
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            TextField(
+              controller: _forgotnewpasscontroller,
+              decoration: InputDecoration(
+                  labelText: 'New Password', icon: Icon(Icons.lock_outlined)),
+              obscureText: true,
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: '',
+                    style: TextStyle(color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'NEW',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                      TextSpan(
+                        text: ' password again:',
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            TextField(
+              controller: _forgotconpasscontroller,
+              decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  icon: Icon(Icons.lock_outlined)),
+              obscureText: true,
+            )
+          ]),
+        ),
+        actions: [
+          TextButton(
+            child: Text("Submit"),
+            onPressed: () {
+              Navigator.of(context).pop();
+              _resetPassword(_forgotemailcontroller.text,
+                  _forgotnewpasscontroller.text, _forgotconpasscontroller.text);
+            },
+          ),
+          TextButton(
+              child: Text("Back"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+        ]);
   }
 }

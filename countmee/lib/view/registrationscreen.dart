@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +15,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController _passwordControllera = new TextEditingController();
   TextEditingController _passwordControllerb = new TextEditingController();
   double screenHeight, screenWidth;
+  bool _autoValidate = false;
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
@@ -76,30 +78,50 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               fontSize: 24,
                             ),
                           ),
-                          TextField(
-                            controller: _nameController,
-                            keyboardType: TextInputType.name,
-                            decoration: InputDecoration(
-                                labelText: 'Name', icon: Icon(Icons.person)),
+                          Form(
+                            autovalidate: _autoValidate,
+                            child: TextFormField(
+                              controller: _nameController,
+                              keyboardType: TextInputType.name,
+                              decoration: InputDecoration(
+                                  labelText: 'Name', icon: Icon(Icons.person)),
+                              validator: validateName,
+                            ),
                           ),
-                          TextField(
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                labelText: 'Email', icon: Icon(Icons.email)),
+                          Form(
+                            autovalidate: _autoValidate,
+                            child: TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                  labelText: 'Email', icon: Icon(Icons.email)),
+                              validator: (value) =>
+                                  EmailValidator.validate(value)
+                                      ? null
+                                      : "Please enter a valid email",
+                            ),
                           ),
-                          TextField(
-                            controller: _passwordControllera,
-                            decoration: InputDecoration(
-                                labelText: 'Password', icon: Icon(Icons.lock)),
-                            obscureText: true,
+                          Form(
+                            autovalidate: _autoValidate,
+                            child: TextFormField(
+                              controller: _passwordControllera,
+                              decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  icon: Icon(Icons.lock)),
+                              obscureText: true,
+                              validator: validatePassword,
+                            ),
                           ),
-                          TextField(
-                            controller: _passwordControllerb,
-                            decoration: InputDecoration(
-                                labelText: 'Confirm Password',
-                                icon: Icon(Icons.lock)),
-                            obscureText: true,
+                          Form(
+                            autovalidate: _autoValidate,
+                            child: TextFormField(
+                              controller: _passwordControllerb,
+                              decoration: InputDecoration(
+                                  labelText: 'Confirm Password',
+                                  icon: Icon(Icons.lock)),
+                              obscureText: true,
+                              validator: validatePasswordMatching,
+                            ),
                           ),
                           SizedBox(height: 10),
                           MaterialButton(
@@ -141,6 +163,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
+  String validateName(String value) {
+    String patttern = r'(^[a-zA-Z ]*$)';
+    RegExp regExp = RegExp(patttern);
+    if (value.length == 0) {
+      return "Name is Required";
+    } else if (!regExp.hasMatch(value)) {
+      return "Name must be a-z and A-Z";
+    }
+    return null;
+  }
+
+  String validatePassword(String value) {
+    if (value.length == 0) {
+      return "Password is Required";
+    } else if (value.length < 6) {
+      return "Password Should be more than 6.";
+    }
+    return null;
+  }
+
+  String validatePasswordMatching(String value) {
+    var password = _passwordControllera.text;
+    if (value.length == 0) {
+      return "Password is Required";
+    } else if (value != password) {
+      return 'Password is not matching';
+    }
+    return null;
+  }
+
   void _alreadyRegister() {
     Navigator.push(
         context, MaterialPageRoute(builder: (content) => LoginScreen()));
@@ -151,11 +203,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     String _email = _emailController.text.toString();
     String _passworda = _passwordControllera.text.toString();
     String _passwordb = _passwordControllerb.text.toString();
-
-    if (_name.isEmpty ||
-        _email.isEmpty ||
-        _passworda.isEmpty ||
-        _passwordb.isEmpty) {
+    setState(() {
+      _autoValidate = true;
+    });
+    if (_name.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Name is empty",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    } else if (_email.isEmpty || _passworda.isEmpty || _passwordb.isEmpty) {
       Fluttertoast.showToast(
           msg: "Email/password is empty",
           toastLength: Toast.LENGTH_SHORT,
@@ -165,9 +226,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           textColor: Colors.white,
           fontSize: 16.0);
       return;
+    } else if (_passworda.length < 6) {
+      return;
     } else if (_passworda != _passwordb) {
+      return;
+    } else if (!EmailValidator.validate(_email, true)) {
       Fluttertoast.showToast(
-          msg: "Confirm password is wrong",
+          msg: "Email is wrong",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -220,7 +285,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
+            backgroundColor: Color.fromRGBO(30, 191, 46, 50),
             textColor: Colors.white,
             fontSize: 16.0);
         FocusScope.of(context).unfocus();
@@ -229,7 +294,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _passwordControllera.clear();
         _passwordControllerb.clear();
         Navigator.push(
-        context, MaterialPageRoute(builder: (content) => LoginScreen()));
+            context, MaterialPageRoute(builder: (content) => LoginScreen()));
       } else {
         Fluttertoast.showToast(
             msg: "Registration Failed",

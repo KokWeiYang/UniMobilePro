@@ -79,6 +79,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           Form(
+                            // ignore: deprecated_member_use
                             autovalidate: _autoValidate,
                             child: TextFormField(
                               controller: _nameController,
@@ -89,6 +90,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           Form(
+                            // ignore: deprecated_member_use
                             autovalidate: _autoValidate,
                             child: TextFormField(
                               controller: _emailController,
@@ -102,6 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           Form(
+                            // ignore: deprecated_member_use
                             autovalidate: _autoValidate,
                             child: TextFormField(
                               controller: _passwordControllera,
@@ -113,6 +116,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           Form(
+                            // ignore: deprecated_member_use
                             autovalidate: _autoValidate,
                             child: TextFormField(
                               controller: _passwordControllerb,

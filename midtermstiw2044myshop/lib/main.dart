@@ -1,113 +1,213 @@
+import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(MyApp());
-}
+import 'newproduct.dart';
+
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      title: '',
+      home: MyShop(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class MyShop extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyShopState createState() => _MyShopState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+class _MyShopState extends State<MyShop> {
+  double screenHeight, screenWidth;
+  List _productlist;
+  int _pageno = 1;
+  int pagenum = 0;
+  @override
+  void initState() {
+    super.initState();
+    _loadimage();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+    return MaterialApp(
+      title: 'Material App',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Material App Bar'),
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              _productlist == null
+                  ? Flexible(child: Center(child: Text('empty')))
+                  : Flexible(
+                      child: Center(
+                      child: GridView.count(
+                          crossAxisCount: 2,
+                          childAspectRatio: (screenWidth / screenHeight) / 1,
+                          children: List.generate(
+                            _productlist.length,
+                            (index) {
+                              return Padding(
+                                  padding: EdgeInsets.fromLTRB(5, 6, 5, 6),
+                                  child: Card(
+                                      color: Colors.blue[50],
+                                      child: SingleChildScrollView(
+                                        child: Column(children: [
+                                          SizedBox(height: 10),
+                                          Container(
+                                            height: screenWidth / 2.5,
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  "https://hubbuddies.com/269971/myshop/images/product/${_productlist[index]['productid']}.png",
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) =>
+                                                  new Transform.scale(
+                                                      scale: 0.5,
+                                                      child:
+                                                          CircularProgressIndicator()),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      new Icon(
+                                                Icons.broken_image,
+                                                size: screenWidth / 3,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Container(
+                                            height: screenWidth / 2.5,
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                          child: Row(children: [
+                                                        Container(
+                                                            child: Text(
+                                                                'Product Name: ')),
+                                                        Expanded(
+                                                            child: Text(
+                                                          _productlist[index]
+                                                              ['productname'],
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          textAlign:
+                                                              TextAlign.justify,
+                                                        )),
+                                                      ])),
+                                                      Container(
+                                                          child: Row(children: [
+                                                        Container(
+                                                            child: Text(
+                                                                'Product Type:')),
+                                                        Expanded(
+                                                            child: Text(
+                                                          _productlist[index]
+                                                              ['producttype'],
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          textAlign:
+                                                              TextAlign.justify,
+                                                        )),
+                                                      ])),
+                                                      Container(
+                                                          child: Row(children: [
+                                                        Container(
+                                                            child: Text(
+                                                                'Product Price: RM')),
+                                                        Expanded(
+                                                            child: Text(
+                                                          _productlist[index]
+                                                              ['productprice'],
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          textAlign:
+                                                              TextAlign.justify,
+                                                        )),
+                                                      ])),
+                                                      Container(
+                                                          child: Row(children: [
+                                                        Container(
+                                                            child: Text(
+                                                                'Product Quantity: ')),
+                                                        Expanded(
+                                                            child: Text(
+                                                          _productlist[index]
+                                                              ['productqty'],
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          textAlign:
+                                                              TextAlign.justify,
+                                                        )),
+                                                      ])),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ]),
+                                      ),),
+                                      );
+                            },
+                          )),
+                    )),
+            ],
+          ),
+        ),
+        floatingActionButton: Builder(
+          builder: (context) => FloatingActionButton(
+              child: Icon(Icons.add),
+              backgroundColor: Colors.blue,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewProduct()),
+                );
+              }),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void _loadimage() {
+    print(_pageno);
+    http.post(
+        Uri.parse("https://hubbuddies.com/269971/myshop/php/load_image.php"),
+        body: {
+          "pageno": _pageno.toString(),
+        }).then((response) {
+      if (response.body == "nodata") {
+        return;
+      } else {
+        var jsondata = json.decode(response.body);
+        _productlist = jsondata["products"];
+        pagenum = _productlist[0]['numpage'];
+        setState(() {});
+        print(_productlist);
+      }
+    });
   }
 }

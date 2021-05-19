@@ -444,7 +444,7 @@ class _NewProductState extends State<NewProduct> {
     String prsprice = _prpriceController.text.toString();
     String prsqty = _prqtyController.text.toString();
     http.post(
-        Uri.parse("https://hubbuddies.com/269971/myshop/php/add_image.php"),
+        Uri.parse("https://hubbuddies.com/269971/myshop/php/newproduct.php"),
         body: {
           "prname": prsname,
           "prtype": prstype,

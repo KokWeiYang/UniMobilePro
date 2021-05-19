@@ -213,7 +213,7 @@ class _MyShopState extends State<MyShop> {
 
   void _loadimage() {
     http.post(
-        Uri.parse("https://hubbuddies.com/269971/myshop/php/load_image.php"),
+        Uri.parse("https://hubbuddies.com/269971/myshop/php/loadproducts.php"),
         body: {
         }).then((response) {
       if (response.body == "nodata") {

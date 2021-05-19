@@ -36,7 +36,7 @@ class _NewProductState extends State<NewProduct> {
       home: Scaffold(
         backgroundColor: Color(0xfff4a460),
         appBar: AppBar(
-      backgroundColor: Color(0xffff6347),
+          backgroundColor: Color(0xffff6347),
           title: Text('New Product'),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_outlined, color: Colors.white),
@@ -182,8 +182,10 @@ class _NewProductState extends State<NewProduct> {
     if (value.length == 0) {
       return "Name is Required";
     } else if (!regExp.hasMatch(value)) {
+      _prnameController.clear();
       return "Name must be a-z and A-Z";
-    }else if (value.length > 30) {
+    } else if (value.length > 30) {
+      _prnameController.clear();
       return "The length can't more than 30 values.";
     }
     return null;
@@ -195,8 +197,10 @@ class _NewProductState extends State<NewProduct> {
     if (value.length == 0) {
       return "Type is Required";
     } else if (!regExp.hasMatch(value)) {
+      _prtypeController.clear();
       return "Type must be a-z and A-Z";
-    }else if (value.length > 30) {
+    } else if (value.length > 30) {
+      _prtypeController.clear();
       return "The length can't more than 30 values.";
     }
     return null;
@@ -205,7 +209,8 @@ class _NewProductState extends State<NewProduct> {
   String validatePrice(String value) {
     if (value.length == 0) {
       return "Price is Required";
-    } else if ( value.length > 7) {
+    } else if (value.length > 7) {
+      _prpriceController.clear();
       return "Price can't more than 6 values.";
     }
     return null;
@@ -215,6 +220,7 @@ class _NewProductState extends State<NewProduct> {
     if (value.length == 0) {
       return "Quantity is Required";
     } else if (value.length > 6) {
+      _prqtyController.clear();
       return "Quantity can't more than 6 values.";
     }
     return null;
@@ -363,18 +369,34 @@ class _NewProductState extends State<NewProduct> {
   }
 
   void _submitdialog() {
+    String prsname = _prnameController.text.toString();
+    String prstype = _prtypeController.text.toString();
+    String prsprice = _prpriceController.text.toString();
+    String prsqty = _prqtyController.text.toString();
     setState(() {
       _autoValidate = true;
     });
-    if(_image == null){
+    if (_image == null) {
       Fluttertoast.showToast(
-            msg: "Image is Empty!",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+          msg: "Image is Empty!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    } else if (prsname.isEmpty ||
+        prstype.isEmpty ||
+        prsprice.isEmpty ||
+        prsqty.isEmpty) {Fluttertoast.showToast(
+          msg: "Something Wrong!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
       return;
     }
     showDialog(
@@ -404,8 +426,6 @@ class _NewProductState extends State<NewProduct> {
   }
 
   Future<void> _submitnewproduct() async {
-    
-
     pr = ProgressDialog(context);
     pr.style(
       message: 'Posting...',

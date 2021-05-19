@@ -40,8 +40,9 @@ class _MyShopState extends State<MyShop> {
     return MaterialApp(
       title: 'Material App',
       home: Scaffold(
-        backgroundColor: Colors.blue[200],
+        backgroundColor: Color(0xfff4a460),
         appBar: AppBar(
+          backgroundColor: Color(0xffff6347),
           title: Text('My Shop'),
         ),
         body: Center(
@@ -53,126 +54,144 @@ class _MyShopState extends State<MyShop> {
                       child: Center(
                       child: GridView.count(
                           crossAxisCount: 2,
-                          childAspectRatio: (screenWidth / screenHeight) /1.2,
+                          childAspectRatio: (screenWidth / screenHeight) / 1.2,
                           children: List.generate(
                             _productlist.length,
                             (index) {
                               return Padding(
-                                  padding: EdgeInsets.fromLTRB(5, 6, 5, 6),
-                                  child: Card(
-                                      color: Colors.blue[50],
-                                      child: SingleChildScrollView(
+                                padding: EdgeInsets.fromLTRB(5, 6, 5, 6),
+                                child: Card(
+                                  color: Colors.deepOrange[50],
+                                  child: SingleChildScrollView(
+                                    child: Column(children: [
+                                      SizedBox(height: 10),
+                                      Container(
+                                        height: screenWidth / 2.5,
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              "https://hubbuddies.com/269971/myshop/images/product/${_productlist[index]['productid']}.png",
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              new Transform.scale(
+                                                  scale: 0.5,
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                          errorWidget: (context, url, error) =>
+                                              new Icon(
+                                            Icons.broken_image,
+                                            size: screenWidth / 3,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Container(
+                                        height: screenWidth / 2.4,
                                         child: Column(
                                           children: [
-                                          SizedBox(height: 10),
-                                          Container(
-                                            height: screenWidth / 2.5,
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  "https://hubbuddies.com/269971/myshop/images/product/${_productlist[index]['productid']}.png",
-                                              fit: BoxFit.cover,
-                                              placeholder: (context, url) =>
-                                                  new Transform.scale(
-                                                      scale: 0.5,
-                                                      child:
-                                                          CircularProgressIndicator()),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      new Icon(
-                                                Icons.broken_image,
-                                                size: screenWidth / 3,
+                                            Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 1, 5, 1),
+                                              height: screenWidth / 2.4,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  
+                                                    Container(
+                                                        child: Text(
+                                                      'Product Name: ',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    )),
+                                                    Expanded(
+                                                        child: Text(
+                                                      _productlist[index]
+                                                          ['productname'],
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                    )),
+                                                  
+                                                  SizedBox(height: 10),
+                                                  
+                                                    Container(
+                                                        child: Text(
+                                                            'Product Type:',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),)),
+                                                    Expanded(
+                                                        child: Text(
+                                                      _productlist[index]
+                                                          ['producttype'],
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                    )),
+                                                  SizedBox(height: 10),
+                                                  
+                                                    Container(
+                                                        child: Text(
+                                                            'Product Price:',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),)),
+                                                    Expanded(
+                                                        child: Text("RM"+
+                                                      _productlist[index]
+                                                          ['productprice']+" each",
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                    )),
+                                                  SizedBox(height: 10),
+                                                  
+                                                    Container(
+                                                        child: Text(
+                                                            'Product Quantity: ',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),)),
+                                                    Expanded(
+                                                        child: Text(
+                                                      _productlist[index]
+                                                          ['productqty'],
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                    )),
+                                                ],
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(height: 10),
-                                          Container(
-                                            height: screenWidth / 2.5,
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                          child: Row(children: [
-                                                        Container(
-                                                            child: Text(
-                                                                'Product Name: ')),
-                                                        Expanded(
-                                                            child: Text(
-                                                          _productlist[index]
-                                                              ['productname'],
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          textDirection:
-                                                              TextDirection.rtl,
-                                                          textAlign:
-                                                              TextAlign.justify,
-                                                        )),
-                                                      ])),
-                                                      Container(
-                                                          child: Row(children: [
-                                                        Container(
-                                                            child: Text(
-                                                                'Product Type:')),
-                                                        Expanded(
-                                                            child: Text(
-                                                          _productlist[index]
-                                                              ['producttype'],
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          textDirection:
-                                                              TextDirection.rtl,
-                                                          textAlign:
-                                                              TextAlign.justify,
-                                                        )),
-                                                      ])),
-                                                      Container(
-                                                          child: Row(children: [
-                                                        Container(
-                                                            child: Text(
-                                                                'Product Price: RM')),
-                                                        Expanded(
-                                                            child: Text(
-                                                          _productlist[index]
-                                                              ['productprice'],
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          textDirection:
-                                                              TextDirection.rtl,
-                                                          textAlign:
-                                                              TextAlign.justify,
-                                                        )),
-                                                      ])),
-                                                      Container(
-                                                          child: Row(children: [
-                                                        Container(
-                                                            child: Text(
-                                                                'Product Quantity: ')),
-                                                        Expanded(
-                                                            child: Text(
-                                                          _productlist[index]
-                                                              ['productqty'],
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          textDirection:
-                                                              TextDirection.rtl,
-                                                          textAlign:
-                                                              TextAlign.justify,
-                                                        )),
-                                                      ])),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ]),
-                                      ),),
-                                      );
+                                          ],
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                ),
+                              );
                             },
                           )),
                     )),
@@ -182,7 +201,7 @@ class _MyShopState extends State<MyShop> {
         floatingActionButton: Builder(
           builder: (context) => FloatingActionButton(
               child: Icon(Icons.add),
-              backgroundColor: Colors.blue,
+              backgroundColor: Color(0xffff6e00),
               onPressed: () {
                 Navigator.push(
                   context,

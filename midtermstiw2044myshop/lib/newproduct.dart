@@ -34,9 +34,17 @@ class _NewProductState extends State<NewProduct> {
     return MaterialApp(
       title: 'MY SHOP',
       home: Scaffold(
-        backgroundColor: Colors.blue[200],
+        backgroundColor: Color(0xfff4a460),
         appBar: AppBar(
+      backgroundColor: Color(0xffff6347),
           title: Text('New Product'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_outlined, color: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyApp()));
+            },
+          ),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -137,7 +145,7 @@ class _NewProductState extends State<NewProduct> {
                               ],
                             ),
                             onPressed: _addingimage,
-                            color: Colors.blue[50]),
+                            color: Color(0xffff8c00)),
                         SizedBox(height: 10),
                       ],
                     ),
@@ -159,7 +167,7 @@ class _NewProductState extends State<NewProduct> {
                       ],
                     ),
                     onPressed: _submitdialog,
-                    color: Colors.blue[300]),
+                    color: Color(0xffff6e00)),
               ],
             ),
           ),
@@ -175,6 +183,8 @@ class _NewProductState extends State<NewProduct> {
       return "Name is Required";
     } else if (!regExp.hasMatch(value)) {
       return "Name must be a-z and A-Z";
+    }else if (value.length > 30) {
+      return "The length can't more than 30 values.";
     }
     return null;
   }
@@ -186,6 +196,8 @@ class _NewProductState extends State<NewProduct> {
       return "Type is Required";
     } else if (!regExp.hasMatch(value)) {
       return "Type must be a-z and A-Z";
+    }else if (value.length > 30) {
+      return "The length can't more than 30 values.";
     }
     return null;
   }
@@ -193,8 +205,8 @@ class _NewProductState extends State<NewProduct> {
   String validatePrice(String value) {
     if (value.length == 0) {
       return "Price is Required";
-    } else if (value.length > 6) {
-      return "Price can't more than 4 values.";
+    } else if ( value.length > 7) {
+      return "Price can't more than 6 values.";
     }
     return null;
   }

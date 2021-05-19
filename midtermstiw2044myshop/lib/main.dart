@@ -25,8 +25,6 @@ class MyShop extends StatefulWidget {
 class _MyShopState extends State<MyShop> {
   double screenHeight, screenWidth;
   List _productlist;
-  int _pageno = 1;
-  int pagenum = 0;
   @override
   void initState() {
     super.initState();
@@ -214,18 +212,15 @@ class _MyShopState extends State<MyShop> {
   }
 
   void _loadimage() {
-    print(_pageno);
     http.post(
         Uri.parse("https://hubbuddies.com/269971/myshop/php/load_image.php"),
         body: {
-          "pageno": _pageno.toString(),
         }).then((response) {
       if (response.body == "nodata") {
         return;
       } else {
         var jsondata = json.decode(response.body);
         _productlist = jsondata["products"];
-        pagenum = _productlist[0]['numpage'];
         setState(() {});
         print(_productlist);
       }

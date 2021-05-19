@@ -40,8 +40,9 @@ class _MyShopState extends State<MyShop> {
     return MaterialApp(
       title: 'Material App',
       home: Scaffold(
+        backgroundColor: Colors.blue[200],
         appBar: AppBar(
-          title: Text('Material App Bar'),
+          title: Text('My Shop'),
         ),
         body: Center(
           child: Column(
@@ -52,7 +53,7 @@ class _MyShopState extends State<MyShop> {
                       child: Center(
                       child: GridView.count(
                           crossAxisCount: 2,
-                          childAspectRatio: (screenWidth / screenHeight) / 1,
+                          childAspectRatio: (screenWidth / screenHeight) /1.2,
                           children: List.generate(
                             _productlist.length,
                             (index) {
@@ -61,7 +62,8 @@ class _MyShopState extends State<MyShop> {
                                   child: Card(
                                       color: Colors.blue[50],
                                       child: SingleChildScrollView(
-                                        child: Column(children: [
+                                        child: Column(
+                                          children: [
                                           SizedBox(height: 10),
                                           Container(
                                             height: screenWidth / 2.5,

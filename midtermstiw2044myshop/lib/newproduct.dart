@@ -34,6 +34,7 @@ class _NewProductState extends State<NewProduct> {
     return MaterialApp(
       title: 'MY SHOP',
       home: Scaffold(
+        backgroundColor: Colors.blue[200],
         appBar: AppBar(
           title: Text('New Product'),
         ),
@@ -158,7 +159,7 @@ class _NewProductState extends State<NewProduct> {
                       ],
                     ),
                     onPressed: _submitdialog,
-                    color: Colors.blue[200]),
+                    color: Colors.blue[300]),
               ],
             ),
           ),

@@ -83,13 +83,13 @@ class _MyShopState extends State<MyShop> {
                                       ),
                                       SizedBox(height: 10),
                                       Container(
-                                        height: screenWidth / 2.4,
+                                        height: screenWidth / 2.2,
                                         child: Column(
                                           children: [
                                             Container(
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 1, 5, 1),
-                                              height: screenWidth / 2.4,
+                                              height: screenWidth / 2.2,
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -116,7 +116,6 @@ class _MyShopState extends State<MyShop> {
                                                       textAlign:
                                                           TextAlign.justify,
                                                     )),
-                                                  
                                                   SizedBox(height: 10),
                                                   
                                                     Container(

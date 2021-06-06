@@ -41,10 +41,10 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   Container(
-                      margin: EdgeInsets.fromLTRB(5, 30, 5, 10),
+                      margin: EdgeInsets.fromLTRB(15, 30, 15, 10),
                       child: Image.asset(
                         'assets/images/logo.png',
-                        scale: 4,
+                        scale: 6,
                       )),
                   Card(
                     color: Colors.white54,

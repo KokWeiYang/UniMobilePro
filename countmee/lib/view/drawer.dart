@@ -1,5 +1,7 @@
 import 'package:countmee/model/user.dart';
+import 'package:countmee/view/myprofile.dart';
 import 'package:flutter/material.dart';
+import 'loginscreen.dart';
 import 'mainscreen.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -17,9 +19,11 @@ class _MyDrawerState extends State<MyDrawer> {
         child: ListView(
       children: [
         UserAccountsDrawerHeader(
+          decoration: BoxDecoration(color: const Color(0xff7d57ae)),
           accountName: Text("Hi " + widget.user.name + ","),
           accountEmail: Text(widget.user.email),
           currentAccountPicture: CircleAvatar(
+            // foregroundImage:,
             backgroundColor:
                 Theme.of(context).platform == TargetPlatform.android
                     ? Colors.white
@@ -31,10 +35,9 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
         ),
         ListTile(
-            title: Text("Dashboard"),
+            title: Text("My Menu"),
             onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
+              Navigator.pop(
                   context,
                   MaterialPageRoute(
                       builder: (content) => MainScreen(
@@ -42,12 +45,12 @@ class _MyDrawerState extends State<MyDrawer> {
                           )));
             }),
         ListTile(
-            title: Text("Menu"),
+            title: Text("My Counting"),
             onTap: () {
               Navigator.pop(context);
             }),
         ListTile(
-            title: Text("My Entries"),
+            title: Text("My Notice"),
             onTap: () {
               Navigator.pop(context);
             }),
@@ -55,13 +58,57 @@ class _MyDrawerState extends State<MyDrawer> {
             title: Text("My Profile"),
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (content) => MyProfile(
+                            user: widget.user,
+                          )));
             }),
         ListTile(
             title: Text("Logout"),
             onTap: () {
-              Navigator.pop(context);
+              showlogout();
             })
       ],
     ));
+  }
+
+  void showlogout() {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        title: new Text(
+          'Logout?',
+          style: TextStyle(),
+        ),
+        content: new Text(
+          'Are you sure?',
+          style: TextStyle(),
+        ),
+        actions: <Widget>[
+          MaterialButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (content) => LoginScreen()));
+              },
+              child: Text(
+                "Yes",
+                style: TextStyle(),
+              )),
+          MaterialButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "No",
+                style: TextStyle(),
+              )),
+        ],
+      ),
+    );
   }
 }

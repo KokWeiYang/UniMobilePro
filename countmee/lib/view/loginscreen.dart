@@ -15,11 +15,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
-  SharedPreferences prefs;
   TextEditingController _forgotemailcontroller = TextEditingController();
   TextEditingController _forgotnewpasscontroller = TextEditingController();
   TextEditingController _forgotconpasscontroller = TextEditingController();
-
+  SharedPreferences prefs;
+  
   @override
   void initState() {
     loadPref();

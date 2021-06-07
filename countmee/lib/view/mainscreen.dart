@@ -18,12 +18,17 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  TextEditingController _menusrcController = new TextEditingController();
+  String _titlecenter = "Loading...";
   double screenHeight, screenWidth;
+  bool issearch = false;
+  bool issearchtext = false;
   List _productlist;
+
   @override
   void initState() {
     super.initState();
-    _loadimage();
+    _loadimage("all");
   }
 
   @override
@@ -34,7 +39,39 @@ class _MainScreenState extends State<MainScreen> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Menu'),
+          title: !issearch
+              ? Text('Menu')
+              : TextField(
+                  controller: _menusrcController,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: "Search Name/Day Here",
+                    hintStyle: TextStyle(color: Colors.white),
+                    suffixIcon: IconButton(
+                      onPressed: () => _loadimage(_menusrcController.text),
+                      icon: Icon(Icons.search, color: Colors.white),
+                    ),
+                  ),
+                ),
+          actions: [
+            issearch
+                ? IconButton(
+                    icon: Icon(Icons.cancel),
+                    onPressed: () {
+                      setState(() {
+                        _loadimage("all");
+                        _menusrcController.clear();
+                        this.issearch = false;
+                      });
+                    })
+                : IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        this.issearch = true;
+                      });
+                    }),
+          ],
           backgroundColor: Colors.deepPurple[300],
         ),
         drawer: MyDrawer(user: widget.user),
@@ -42,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
           child: Column(
             children: [
               _productlist == null
-                  ? Flexible(child: Center(child: Text('empty')))
+                  ? Flexible(child: Center(child: Text(_titlecenter)))
                   : Flexible(
                       child: Center(
                         child: GridView.count(
@@ -89,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
                                                 Container(
                                                   padding: EdgeInsets.fromLTRB(
                                                       5, 1, 5, 1),
-                                                  height: screenWidth / 4,
+                                                  height: screenWidth / 3.7,
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -167,18 +204,24 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _loadimage() {
+  _loadimage(String menuname) {
     http.post(
         Uri.parse("https://hubbuddies.com/269971/countmee/php/loadmees.php"),
-        body: {}).then((response) {
+        body: {
+          "prname": menuname,
+        }).then((response) {
       if (response.body == "nodata") {
+        _titlecenter = "No product";
+        _productlist = [];
         return;
       } else {
+        _titlecenter = "";
         var jsondata = json.decode(response.body);
+        // print(jsondata);
         _productlist = jsondata["products"];
-        setState(() {});
         print(_productlist);
       }
+      setState(() {});
     });
   }
 
@@ -221,7 +264,5 @@ class _MainScreenState extends State<MainScreen> {
         false;
   }
 
-  void _detailprinfo() {
-    
-  }
+  void _detailprinfo() {}
 }

@@ -202,8 +202,15 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _email,
           password: _password,
           name: userdata[1],
-          address: userdata[2],
-          datereg: userdata[3],
+          fname: userdata[2],
+          lname: userdata[3],
+          datereg: userdata[4],
+          address: userdata[5],
+          address2: userdata[6],
+          postcode: userdata[7],
+          city: userdata[8],
+          state: userdata[9],
+          phonenum: userdata[10],
         );
         Navigator.push(context,
             MaterialPageRoute(builder: (content) => MainScreen(user: user)));

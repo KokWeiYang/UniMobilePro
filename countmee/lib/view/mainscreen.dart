@@ -39,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: AppBar(
+
           title: !issearch
               ? Text('Menu')
               : TextField(
@@ -217,9 +218,8 @@ class _MainScreenState extends State<MainScreen> {
       } else {
         _titlecenter = "";
         var jsondata = json.decode(response.body);
-        // print(jsondata);
         _productlist = jsondata["products"];
-        print(_productlist);
+        // print(_productlist);
       }
       setState(() {});
     });

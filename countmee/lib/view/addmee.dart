@@ -21,13 +21,12 @@ class _AddMeeState extends State<AddMee> {
   TextEditingController _prnameController = new TextEditingController();
   TextEditingController _prprice1Controller = new TextEditingController();
   TextEditingController _prprice2Controller = new TextEditingController();
-  TextEditingController _prsdController = new TextEditingController();
   double screenHeight, screenWidth;
   String pathAsset = 'assets/images/addimage.png';
   ProgressDialog pr;
   File _image;
   bool _autoValidate = false;
-
+  String _prsd = "--";
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
@@ -123,18 +122,73 @@ class _AddMeeState extends State<AddMee> {
                               validator: validatePrice2,
                             ),
                           ),
+                          SizedBox(height: 15),
                           Form(
                             // ignore: deprecated_member_use
                             autovalidate: _autoValidate,
-                            child: TextFormField(
-                              controller: _prsdController,
-                              decoration: InputDecoration(
-                                  labelText: 'Sell day',
-                                  icon: Icon(Icons.date_range)),
-                              // validator: validatePrice,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.date_range,
+                                  color: Colors.black54,
+                                  size: 24.0,
+                                ),
+                                SizedBox(
+                                  width: screenWidth / 20,
+                                ),
+                                Text("Sell day",
+                                    style: TextStyle(color: Colors.black54)),
+                                SizedBox(
+                                  width: screenWidth / 6,
+                                ),
+                                Container(
+                                    color: Colors.white54,
+                                    padding: EdgeInsets.all(1.0),
+                                    child: DropdownButton(
+                                        value: _prsd,
+                                        items: [
+                                          DropdownMenuItem(
+                                            child: Text(" -- "),
+                                            value: "--",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Sunday"),
+                                            value: "Sunday",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Monday"),
+                                            value: "Monday",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Tuesday"),
+                                            value: "Tuesday",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Wednesday"),
+                                            value: "Wednesday",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Thursday"),
+                                            value: "Thursday",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Friday"),
+                                            value: "Friday",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Saturday"),
+                                            value: "Saturday",
+                                          ),
+                                        ],
+                                        // ignore: unnecessary_statements
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _prsd = value;
+                                          });
+                                        }))
+                              ],
                             ),
                           ),
-                          SizedBox(height: 15),
                           SizedBox(height: 10),
                         ],
                       ),
@@ -201,12 +255,9 @@ class _AddMeeState extends State<AddMee> {
     return null;
   }
 
-  String validateQuantity(String value) {
-    if (value.length == 0) {
-      return "Quantity is Required";
-    } else if (value.length > 6) {
-      _prsdController.clear();
-      return "Quantity can't more than 6 values.";
+  String validatesellday(String value) {
+    if (value == "--") {
+      return "Sell Day is Required";
     }
     return null;
   }
@@ -357,7 +408,7 @@ class _AddMeeState extends State<AddMee> {
     String prsname = _prnameController.text.toString();
     String prsprice1 = _prprice1Controller.text.toString();
     String prsprice2 = _prprice2Controller.text.toString();
-    String prsqty = _prsdController.text.toString();
+    String prsqty = _prsd.toString();
     setState(() {
       _autoValidate = true;
     });
@@ -377,6 +428,16 @@ class _AddMeeState extends State<AddMee> {
         prsqty.isEmpty) {
       Fluttertoast.showToast(
           msg: "Something Wrong!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    } else if (_prsd == "--") {
+      Fluttertoast.showToast(
+          msg: "Sell Day is Required!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -429,7 +490,11 @@ class _AddMeeState extends State<AddMee> {
     String prsname = _prnameController.text.toString();
     String prsprice1 = _prprice1Controller.text.toString();
     String prsprice2 = _prprice2Controller.text.toString();
-    String prqsd = _prsdController.text.toString();
+    String prqsd = _prsd.toString();
+    print(prsname);
+    print(prsprice1);
+    print(prsprice2);
+    print(prqsd);
     http.post(
         Uri.parse("https://hubbuddies.com/269971/countmee/php/newmee.php"),
         body: {
@@ -458,10 +523,19 @@ class _AddMeeState extends State<AddMee> {
             _prnameController.text = "";
             _prprice1Controller.text = "";
             _prprice2Controller.text = "";
-            _prsdController.text = "";
+            _prsd = "--";
           });
           Navigator.pop(
               context, MaterialPageRoute(builder: (content) => MainScreen()));
+        } else if (response.body == "failed1") {
+          Fluttertoast.showToast(
+              msg: "Price for small can't more than Price for large!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
         } else {
           Fluttertoast.showToast(
               msg: "Upload Failed!",

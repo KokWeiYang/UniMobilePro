@@ -1,6 +1,9 @@
 import 'package:countmee/model/user.dart';
+import 'package:countmee/notice/noticescreen.dart';
 import 'package:countmee/view/myprofile.dart';
+import 'package:countmee/view/payment.dart';
 import 'package:flutter/material.dart';
+import 'countingscreen.dart';
 import 'loginscreen.dart';
 import 'mainscreen.dart';
 
@@ -45,20 +48,42 @@ class _MyDrawerState extends State<MyDrawer> {
                           )));
             }),
         ListTile(
+            title: Text("My E-Wallet QR Code"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => PaymentScreen(
+                            user: widget.user,
+                          )));
+            }),
+        ListTile(
             title: Text("My Counting"),
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => CountingScreen(
+                            user: widget.user,
+                          )));
             }),
         ListTile(
             title: Text("My Notice"),
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => MyNotice(title: 'My Notice')));
             }),
         ListTile(
             title: Text("My Profile"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context,
+              Navigator.push(
+                  context,
                   MaterialPageRoute(
                       builder: (content) => MyProfile(
                             user: widget.user,

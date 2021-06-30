@@ -31,6 +31,7 @@ dependencies:
   image_cropper: ^1.4.0
   image_picker: ^0.8.0+1
   progress_dialog: ^1.2.4
+  qr_flutter: ^4.0.0
   shared_preferences: ^2.0.5
 
 dev_dependencies:

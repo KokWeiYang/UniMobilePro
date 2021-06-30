@@ -21,6 +21,7 @@ class _AddMeeState extends State<AddMee> {
   TextEditingController _prnameController = new TextEditingController();
   TextEditingController _prprice1Controller = new TextEditingController();
   TextEditingController _prprice2Controller = new TextEditingController();
+  TextEditingController _prmateController = new TextEditingController();
   double screenHeight, screenWidth;
   String pathAsset = 'assets/images/addimage.png';
   ProgressDialog pr;
@@ -187,6 +188,19 @@ class _AddMeeState extends State<AddMee> {
                                           });
                                         }))
                               ],
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Form(
+                            // ignore: deprecated_member_use
+                            autovalidate: _autoValidate,
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              controller: _prmateController,
+                              decoration: InputDecoration(
+                                  labelText: 'Ingredients',
+                                  icon: Icon(Icons.auto_awesome)),
                             ),
                           ),
                           SizedBox(height: 10),
@@ -490,7 +504,8 @@ class _AddMeeState extends State<AddMee> {
     String prsname = _prnameController.text.toString();
     String prsprice1 = _prprice1Controller.text.toString();
     String prsprice2 = _prprice2Controller.text.toString();
-    String prqsd = _prsd.toString();
+    String prqsd = _prsd.toString();  
+    String prmater = _prmateController.text.toString();
     print(prsname);
     print(prsprice1);
     print(prsprice2);
@@ -502,6 +517,7 @@ class _AddMeeState extends State<AddMee> {
           "prprice1": prsprice1,
           "prprice2": prsprice2,
           "prqsd": prqsd,
+          "prmater": prmater,
           "encoded_string": base64Image,
         }).then(
       (response) {
@@ -527,6 +543,8 @@ class _AddMeeState extends State<AddMee> {
           });
           Navigator.pop(
               context, MaterialPageRoute(builder: (content) => MainScreen()));
+              setState(() {});
+              
         } else if (response.body == "failed1") {
           Fluttertoast.showToast(
               msg: "Price for small can't more than Price for large!",

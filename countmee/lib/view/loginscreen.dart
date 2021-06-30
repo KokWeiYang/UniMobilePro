@@ -186,7 +186,6 @@ class _LoginScreenState extends State<LoginScreen> {
     http.post(
         Uri.parse("https://hubbuddies.com/269971/countmee/php/login_user.php"),
         body: {"email": _email, "password": _password}).then((response) {
-      print(response.body);
       if (response.body == "failed") {
         Fluttertoast.showToast(
             msg: "Login Failed",

@@ -1,3 +1,5 @@
+// import 'package:countmee/model/food.dart';
+// import 'detailfood.dart';
 import 'package:countmee/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -39,7 +41,6 @@ class _MainScreenState extends State<MainScreen> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: AppBar(
-
           title: !issearch
               ? Text('Menu')
               : TextField(
@@ -65,13 +66,26 @@ class _MainScreenState extends State<MainScreen> {
                         this.issearch = false;
                       });
                     })
-                : IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      setState(() {
-                        this.issearch = true;
-                      });
-                    }),
+                : Container(
+                    child: Row(
+                      children: [
+                        IconButton(
+                            icon: Icon(Icons.search),
+                            onPressed: () {
+                              setState(() {
+                                this.issearch = true;
+                              });
+                            }),
+                        IconButton(
+                            icon: Icon(Icons.refresh_outlined),
+                            onPressed: () {
+                              setState(() {
+                                _loadimage("all");
+                              });
+                            })
+                      ],
+                    ),
+                  ),
           ],
           backgroundColor: Colors.deepPurple[300],
         ),
@@ -93,7 +107,12 @@ class _MainScreenState extends State<MainScreen> {
                               return Padding(
                                 padding: EdgeInsets.fromLTRB(5, 6, 5, 6),
                                 child: GestureDetector(
-                                  onTap: _detailprinfo,
+                                  onTap: () {
+                                    _detailprinfo(
+                                        index.toString(),
+                                        _productlist[index]['productid']
+                                            .toString());
+                                  },
                                   child: Card(
                                     color: Colors.deepOrange[50],
                                     child: SingleChildScrollView(
@@ -264,5 +283,44 @@ class _MainScreenState extends State<MainScreen> {
         false;
   }
 
-  void _detailprinfo() {}
+  void _detailprinfo(String i, String prid) {
+    int index = int.parse(i);
+    // Food food = Food(prid);
+
+    print(prid);
+    print(index);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Theme(
+              data: Theme.of(context)
+                  .copyWith(dialogBackgroundColor: Colors.orange),
+              child: AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                title: Text(
+                  _productlist[index]['productname'] + "'s \nIngredients:",
+                  style: TextStyle(color: Colors.yellow[300]),
+                ),
+                content: Text(
+                  _productlist[index]['productmaterial'],
+                  style: TextStyle(color: Colors.yellow[300]),
+                ),
+                // actions: <Widget>[
+                //   MaterialButton(
+                //       onPressed: () {
+                //         Navigator.pop(context);
+                //         Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (content) => DetailFood(food: food)));
+                //       },
+                //       child: Text(
+                //         "More Info...",
+                //         style: TextStyle(),
+                //       )),
+                // ],
+              ));
+        });
+  }
 }

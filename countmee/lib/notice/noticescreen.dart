@@ -1,11 +1,12 @@
-  
+import 'package:countmee/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:countmee/notice/draw.dart';
 import 'package:countmee/notice/CreateNote.dart';
 import 'package:countmee/notice/DataReader.dart';
 
 class MyNotice extends StatefulWidget {
-  MyNotice({Key key, this.title}) : super(key: key);
+  final User user;
+  MyNotice({Key key, this.title, this.user}) : super(key: key);
 
   final String title;
 
@@ -14,7 +15,8 @@ class MyNotice extends StatefulWidget {
 }
 
 class _MyNoticeState extends State<MyNotice> {
-  final GlobalKey<AnimatedListState> _listKey = new GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _listKey =
+      new GlobalKey<AnimatedListState>();
   ListModel<Map> _list;
   Map _selectedItem;
   String _title;
@@ -54,7 +56,8 @@ class _MyNoticeState extends State<MyNotice> {
     }).toList();
   }
 
-  Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
+  Widget _buildItem(
+      BuildContext context, int index, Animation<double> animation) {
     return new CardItem(
       animation: animation,
       item: _list[index],
@@ -67,12 +70,9 @@ class _MyNoticeState extends State<MyNotice> {
     );
   }
 
-  Widget _buildRemovedItem(Map item, BuildContext context, Animation<double> animation) {
-    return new CardItem(
-      animation: animation,
-      item: item,
-      selected: false
-    );
+  Widget _buildRemovedItem(
+      Map item, BuildContext context, Animation<double> animation) {
+    return new CardItem(animation: animation, item: item, selected: false);
   }
 
   void _insert() {
@@ -97,20 +97,20 @@ class _MyNoticeState extends State<MyNotice> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     String title = _title ?? widget.title;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(title),
-        actions: <Widget> [
+        actions: <Widget>[
           new IconButton(
             icon: const Icon(Icons.delete),
             onPressed: _remove,
             tooltip: 'remove the selected item',
           ),
-        ],backgroundColor: Colors.deepPurple[300],
+        ],
+        backgroundColor: Colors.deepPurple[300],
       ),
       body: new Padding(
         padding: const EdgeInsets.all(16.0),
@@ -120,7 +120,6 @@ class _MyNoticeState extends State<MyNotice> {
           itemBuilder: _buildItem,
         ),
       ),
-
       floatingActionButton: new FloatingActionButton(
         onPressed: _insert,
         backgroundColor: Color(0xff7d57ae),
@@ -130,6 +129,7 @@ class _MyNoticeState extends State<MyNotice> {
       ),
       drawer: new Drawer(
         child: new DrawList(
+            user: widget.user,
             notes: _notes,
             filterNotes: (String type) {
               List<Map> notes = _copyNotes(_notes);
@@ -152,13 +152,11 @@ class _MyNoticeState extends State<MyNotice> {
               setState(() {
                 _markListItemFromNote(notes);
               });
-            }
-        ),
+            }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-
 }
 
 class ListModel<E> {
@@ -166,7 +164,7 @@ class ListModel<E> {
     @required this.listKey,
     @required this.removedItemBuilder,
     Iterable<E> initialItems,
-  }) : assert(listKey != null),
+  })  : assert(listKey != null),
         assert(removedItemBuilder != null),
         _items = new List<E>.from(initialItems ?? <E>[]);
 
@@ -185,7 +183,8 @@ class ListModel<E> {
   E removeAt(int index) {
     final E removedItem = _items.removeAt(index);
     if (removedItem != null) {
-      _animatedList.removeItem(index, (BuildContext context, Animation<double> animation) {
+      _animatedList.removeItem(index,
+          (BuildContext context, Animation<double> animation) {
         return removedItemBuilder(removedItem, context, animation);
       });
     }
@@ -204,13 +203,13 @@ class ListModel<E> {
 }
 
 class CardItem extends StatelessWidget {
-  const CardItem({
-    Key key,
-    @required this.animation,
-    this.onTap,
-    @required this.item,
-    this.selected: false
-  }) : assert(animation != null),
+  const CardItem(
+      {Key key,
+      @required this.animation,
+      this.onTap,
+      @required this.item,
+      this.selected: false})
+      : assert(animation != null),
         assert(selected != null),
         super(key: key);
 
@@ -222,8 +221,7 @@ class CardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextStyle textStyle = Theme.of(context).textTheme.headline4;
-    if (selected)
-      textStyle = textStyle.copyWith(color: Color(0xff7d57ae));
+    if (selected) textStyle = textStyle.copyWith(color: Color(0xff7d57ae));
     final String markerName = item['markName'] ?? '';
     final bool stared = item['star'] ?? false;
     return new Padding(
@@ -237,47 +235,54 @@ class CardItem extends StatelessWidget {
           child: new FractionallySizedBox(
             //height: 128.0,
             child: new Card(
-              color: selected ? Colors.cyan : Colors.white,
-              child: new Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      new Container(
-                        alignment: AlignmentDirectional.topStart,
-                        child: new Text(
-                          item['text'] ?? '',
-                          textAlign: TextAlign.left,
-                          style: new TextStyle(color: selected ? Colors.white : Colors.black87, fontSize: 16.0),
-                        ),
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          new Text(
-                            item['time'] ?? '',
+                color: selected ? Colors.cyan : Colors.white,
+                child: new Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        new Container(
+                          alignment: AlignmentDirectional.topStart,
+                          child: new Text(
+                            item['text'] ?? '',
                             textAlign: TextAlign.left,
-                            style: new TextStyle(fontSize: 12.0, color: selected ? Colors.white : Colors.black38),
+                            style: new TextStyle(
+                                color: selected ? Colors.white : Colors.black87,
+                                fontSize: 16.0),
                           ),
-                          new Chip(
-                            avatar: new CircleAvatar(
-                                backgroundColor: markerName.isNotEmpty ? Colors.yellow.shade50 : Colors.transparent,
-                                child: markerName.isNotEmpty ? new Icon(Icons.bookmark_border) : null
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            new Text(
+                              item['time'] ?? '',
+                              textAlign: TextAlign.left,
+                              style: new TextStyle(
+                                  fontSize: 12.0,
+                                  color:
+                                      selected ? Colors.white : Colors.black38),
                             ),
-                            backgroundColor: markerName.isNotEmpty ? Colors.yellow.shade50 : Colors.transparent,
-                            label: new Text(markerName),
-                          ),
-                          new Icon(
-                              Icons.star,
-                              color: stared ? Colors.amber : Colors.transparent
-                          )
-                        ],
-                      )
-                    ]
-                ),
-              )
-            ),
+                            new Chip(
+                              avatar: new CircleAvatar(
+                                  backgroundColor: markerName.isNotEmpty
+                                      ? Colors.yellow.shade50
+                                      : Colors.transparent,
+                                  child: markerName.isNotEmpty
+                                      ? new Icon(Icons.bookmark_border)
+                                      : null),
+                              backgroundColor: markerName.isNotEmpty
+                                  ? Colors.yellow.shade50
+                                  : Colors.transparent,
+                              label: new Text(markerName),
+                            ),
+                            new Icon(Icons.star,
+                                color:
+                                    stared ? Colors.amber : Colors.transparent)
+                          ],
+                        )
+                      ]),
+                )),
           ),
         ),
       ),

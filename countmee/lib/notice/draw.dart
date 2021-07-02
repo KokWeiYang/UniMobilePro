@@ -1,3 +1,4 @@
+import 'package:countmee/model/user.dart';
 import 'package:countmee/view/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:countmee/notice/editMark.dart';
@@ -5,7 +6,9 @@ import 'package:countmee/notice/DataReader.dart';
 export 'package:countmee/notice/draw.dart';
 
 class DrawList extends StatefulWidget {
-  DrawList({Key key, @required this.notes, @required this.filterNotes})
+  final User user;
+  DrawList(
+      {Key key, @required this.notes, @required this.filterNotes, this.user})
       : super(key: key);
   final List<Map> notes;
   final ValueChanged<String> filterNotes;
@@ -45,29 +48,14 @@ class _DrawListState extends State<DrawList> {
     });
 
     final tiles = <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 100,
-            // color: Colors.black,
-            child: new ListTile(
-              title: new IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  size: 30,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context,
-                      MaterialPageRoute(builder: (content) => MainScreen()));
-                },
-              ),
-            ),
-          ),
-          SizedBox(width: 100,)
-        ],
-      ),
+      new ListTile(
+          title:  new Text('My Menu'),
+          leading: new Icon(Icons.arrow_back),
+          onTap: () {
+            Navigator.of(context).pop();
+            Navigator.pop(
+                context, MaterialPageRoute(builder: (content) => MainScreen()));
+          },),
       new ListTile(
           title: new Chip(
             label: new Text('Notice'),

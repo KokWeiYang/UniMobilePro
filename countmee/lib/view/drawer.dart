@@ -66,7 +66,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   context,
                   MaterialPageRoute(
                       builder: (content) => CountingScreen(
-                            user: widget.user,
+                            user: widget.user,curtab: 0
                           )));
             }),
         ListTile(
@@ -76,7 +76,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (content) => MyNotice(title: 'My Notice')));
+                      builder: (content) => MyNotice(title: 'My Notice', user: widget.user)));
             }),
         ListTile(
             title: Text("My Profile"),

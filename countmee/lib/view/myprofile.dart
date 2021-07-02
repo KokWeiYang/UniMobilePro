@@ -15,7 +15,6 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-  // TextEditingController _emailController = new TextEditingController();
   double screenHeight, screenWidth;
   List _userlist;
 
@@ -68,7 +67,7 @@ class _MyProfileState extends State<MyProfile> {
                     child: Center(
                       child: GridView.count(
                         crossAxisCount: 1,
-                        childAspectRatio: (screenWidth / (screenHeight /1.49)),
+                        childAspectRatio: (screenWidth / (screenHeight / 1.49)),
                         children: List.generate(
                           _userlist.length,
                           (index) {
@@ -81,197 +80,77 @@ class _MyProfileState extends State<MyProfile> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        SizedBox(
-                                            height: screenHeight / 25),
+                                        SizedBox(height: screenHeight / 25),
                                         Row(
                                           children: [
                                             Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
+                                              width: (screenWidth * 0.950) / 2,
                                               child: Text("E-mail : "),
                                             ),
                                             Container(
                                               color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child: Text(
-                                                  widget.user.email),
+                                              width: (screenWidth * 0.950) / 2,
+                                              child: Text(widget.user.email),
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
-                                            height: screenHeight / 22),
+                                        SizedBox(height: screenHeight / 22),
                                         Row(
                                           children: [
                                             Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child:
-                                                  Text("First name : "),
+                                              width: (screenWidth * 0.950) / 2,
+                                              child: Text("First name : "),
                                             ),
                                             Container(
                                               color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
+                                              width: (screenWidth * 0.950) / 2,
                                               child: Text(
-                                                  _userlist[index]
-                                                      ['profname']),
+                                                  _userlist[index]['profname']),
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
-                                            height: screenHeight / 22),
+                                        SizedBox(height: screenHeight / 22),
                                         Row(
                                           children: [
                                             Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child:
-                                                  Text("Last name : "),
+                                              width: (screenWidth * 0.950) / 2,
+                                              child: Text("Last name : "),
                                             ),
                                             Container(
                                               color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
+                                              width: (screenWidth * 0.950) / 2,
                                               child: Text(
-                                                  _userlist[index]
-                                                      ['prolname']),
+                                                  _userlist[index]['prolname']),
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
-                                            height: screenHeight / 22),
+                                        SizedBox(height: screenHeight / 22),
                                         Row(
                                           children: [
                                             Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child:
-                                                  Text("Address 1 : "),
+                                              width: (screenWidth * 0.950) / 2,
+                                              child: Text("Address : "),
                                             ),
                                             Container(
                                               color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
+                                              width: (screenWidth * 0.950) / 2,
                                               child: Text(
-                                                  _userlist[index]
-                                                      ['proadd1']),
+                                                  _userlist[index]['proadd1']),
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
-                                            height: screenHeight / 22),
+                                        SizedBox(height: screenHeight / 22),
                                         Row(
                                           children: [
                                             Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child:
-                                                  Text("Address 2 : "),
+                                              width: (screenWidth * 0.950) / 2,
+                                              child: Text("Phone number : "),
                                             ),
                                             Container(
                                               color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
+                                              width: (screenWidth * 0.950) / 2,
                                               child: Text(
-                                                  _userlist[index]
-                                                      ['proadd2']),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                            height: screenHeight / 22),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child:
-                                                  Text("Postcode : "),
-                                            ),
-                                            Container(
-                                              color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child: Text(
-                                                  _userlist[index]
-                                                      ['propostc']),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                            height: screenHeight / 22),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child: Text("City : "),
-                                            ),
-                                            Container(
-                                              color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child: Text(
-                                                  _userlist[index]
-                                                      ['procity']),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                            height: screenHeight / 22),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child: Text("State : "),
-                                            ),
-                                            Container(
-                                              color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child: Text(
-                                                  _userlist[index]
-                                                      ['prostate']),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                            height: screenHeight / 22),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child: Text(
-                                                  "Phone number : "),
-                                            ),
-                                            Container(
-                                              color: Color(0xddd3c1f0),
-                                              width: (screenWidth *
-                                                      0.950) /
-                                                  2,
-                                              child: Text(
-                                                  _userlist[index]
-                                                      ['prophone']),
+                                                  _userlist[index]['prophone']),
                                             ),
                                           ],
                                         ),

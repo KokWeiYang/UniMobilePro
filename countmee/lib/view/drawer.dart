@@ -39,6 +39,7 @@ class _MyDrawerState extends State<MyDrawer> {
         ),
         ListTile(
             title: Text("My Menu"),
+            leading: Icon(Icons.restaurant_menu),
             onTap: () {
               Navigator.pop(
                   context,
@@ -49,6 +50,7 @@ class _MyDrawerState extends State<MyDrawer> {
             }),
         ListTile(
             title: Text("My E-Wallet QR Code"),
+            leading: Icon(Icons.wallet_membership),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -60,26 +62,29 @@ class _MyDrawerState extends State<MyDrawer> {
             }),
         ListTile(
             title: Text("My Counting"),
+            leading: Icon(Icons.school_outlined ),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (content) => CountingScreen(
-                            user: widget.user,curtab: 0
-                          )));
+                      builder: (content) =>
+                          CountingScreen(user: widget.user, curtab: 0)));
             }),
         ListTile(
             title: Text("My Notice"),
+            leading: Icon(Icons.book_outlined ),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (content) => MyNotice(title: 'My Notice', user: widget.user)));
+                      builder: (content) =>
+                          MyNotice(title: 'My Notice', user: widget.user)));
             }),
         ListTile(
             title: Text("My Profile"),
+            leading: Icon(Icons.account_circle_outlined),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -91,6 +96,7 @@ class _MyDrawerState extends State<MyDrawer> {
             }),
         ListTile(
             title: Text("Logout"),
+            leading: Icon(Icons.run_circle_outlined),
             onTap: () {
               showlogout();
             })

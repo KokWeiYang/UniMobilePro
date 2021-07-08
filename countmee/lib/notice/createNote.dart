@@ -40,8 +40,9 @@ class _CreateNoteState extends State<CreateNote> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Edit Notice'),
+      appBar: new AppBar(backgroundColor: Color(0xff7d57ae),
+        foregroundColor: Colors.white,
+        title: new Text('Manage Notice'),
         automaticallyImplyLeading: true,
         actions: [
           new IconButton(

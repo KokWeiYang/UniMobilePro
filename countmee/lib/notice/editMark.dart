@@ -44,7 +44,7 @@ class _EditMarkState extends State<EditMark> {
             ? new IconButton(
                 icon: new Icon(Icons.close), onPressed: _cancelRemove)
             : new BackButton(),
-        title: new Text(_removeAble ? 'Choose Mark' : 'Edit Mark'),
+        title: new Text(_removeAble ? 'Choose Mark' : 'Manage Mark'),
         automaticallyImplyLeading: true,
         actions: _removeAble
             ? <Widget>[

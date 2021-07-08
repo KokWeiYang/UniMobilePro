@@ -1,6 +1,5 @@
 import 'package:countmee/model/user.dart';
 import 'package:flutter/material.dart';
-import 'package:countmee/notice/draw.dart';
 import 'package:countmee/notice/CreateNote.dart';
 import 'package:countmee/notice/DataReader.dart';
 
@@ -20,7 +19,6 @@ class _MyNoticeState extends State<MyNotice> {
   ListModel<Map> _list;
   Map _selectedItem;
   String _title;
-  List<Map> _notes = [];
 
   @override
   void initState() {
@@ -45,16 +43,10 @@ class _MyNoticeState extends State<MyNotice> {
     getNotes().then((List<Map> notes) {
       _markListItemFromNote(notes);
       setState(() {
-        _notes = notes;
       });
     });
   }
 
-  List<Map> _copyNotes(List<Map> notes) {
-    return notes.map((Map note) {
-      return note;
-    }).toList();
-  }
 
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
@@ -127,33 +119,7 @@ class _MyNoticeState extends State<MyNotice> {
         tooltip: 'Increment',
         child: new Icon(Icons.add),
       ),
-      drawer: new Drawer(
-        child: new DrawList(
-            user: widget.user,
-            notes: _notes,
-            filterNotes: (String type) {
-              List<Map> notes = _copyNotes(_notes);
-              if (type == 'all') {
-                _title = 'Notice';
-              } else if (type == 'star') {
-                notes.retainWhere((Map note) {
-                  final bool stared = note['star'] ?? false;
-                  return stared;
-                });
-                _title = 'Important';
-              } else {
-                final id = type.split('-')[1];
-                notes.retainWhere((Map note) {
-                  final String markerId = note['markId'] ?? '';
-                  return id == markerId;
-                });
-                _title = type.split('-')[0];
-              }
-              setState(() {
-                _markListItemFromNote(notes);
-              });
-            }),
-      ),
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -222,8 +188,6 @@ class CardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle textStyle = Theme.of(context).textTheme.headline4;
     if (selected) textStyle = textStyle.copyWith(color: Color(0xff7d57ae));
-    final String markerName = item['markName'] ?? '';
-    final bool stared = item['star'] ?? false;
     return new Padding(
       padding: const EdgeInsets.all(2.0),
       child: new SizeTransition(
@@ -263,22 +227,6 @@ class CardItem extends StatelessWidget {
                                   color:
                                       selected ? Colors.white : Colors.black38),
                             ),
-                            new Chip(
-                              avatar: new CircleAvatar(
-                                  backgroundColor: markerName.isNotEmpty
-                                      ? Colors.yellow.shade50
-                                      : Colors.transparent,
-                                  child: markerName.isNotEmpty
-                                      ? new Icon(Icons.bookmark_border)
-                                      : null),
-                              backgroundColor: markerName.isNotEmpty
-                                  ? Colors.yellow.shade50
-                                  : Colors.transparent,
-                              label: new Text(markerName),
-                            ),
-                            new Icon(Icons.star,
-                                color:
-                                    stared ? Colors.amber : Colors.transparent)
                           ],
                         )
                       ]),

@@ -347,7 +347,6 @@ class _AddMeeState extends State<AddMee> {
                                 )),
                           ],
                         ),
-                        //color: Color.fromRGBO(101, 255, 218, 50),
                         color: Theme.of(context).accentColor,
                         elevation: 10,
                         onPressed: () =>

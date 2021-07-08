@@ -1,35 +1,39 @@
 import 'package:countmee/counting/addexpanse.dart';
-import 'package:countmee/counting/hignlightwell.dart';
 import 'package:countmee/counting/mybill.dart';
 import 'package:countmee/counting/mychart.dart';
 import 'package:countmee/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'mainscreen.dart';
+// import 'mainscreen.dart';
 
 class CountingScreen extends StatefulWidget {
   final User user;
- final int curtab;
+  final int curtab;
   const CountingScreen({Key key, this.user, this.curtab}) : super(key: key);
   @override
   _CountingScreenState createState() => _CountingScreenState();
 }
 
 class _CountingScreenState extends State<CountingScreen> {
-  int currentIndex  = 0;
+  int currentIndex = 0;
   double screenHeight, screenWidth;
-  String maintitle = "Bill";
+  // String maintitle = "Bill";
 
-   List<Widget> barchildren;
+  
+  List<Widget> barchildren;
+
   @override
   void initState() {
     super.initState();
+    
     currentIndex = widget.curtab;
     barchildren = [
       MyBill(user: widget.user),
-      AddExpanse(user: widget.user),
-      Chart(user: widget.user)
+      AddExpanse(user: widget.user, curtab: 0),
+      Chart(
+        user: widget.user,
+      )
     ];
   }
 
@@ -39,20 +43,6 @@ class _CountingScreenState extends State<CountingScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xddd3c1f0),
-      appBar: AppBar(
-        backgroundColor: Color(0xbbb898f2),
-        title: Text(maintitle),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(
-                context, MaterialPageRoute(builder: (context) => MainScreen()));
-          },
-          child: Icon(
-            Icons.arrow_back_outlined,
-          ),
-        ),
-        
-      ),
       body: barchildren[currentIndex],
       bottomNavigationBar: BottomAppBar(
         child: Row(
@@ -72,17 +62,16 @@ class _CountingScreenState extends State<CountingScreen> {
     setState(() {
       currentIndex = index;
       if (currentIndex == 0) {
-        maintitle = "Bill";
+        // maintitle = "Bill";
       }
       if (currentIndex == 1) {
-        maintitle = "Add Expanse";
+        // maintitle = "Add Expanse";
       }
       if (currentIndex == 2) {
-        maintitle = "Chart";
+        // maintitle = "Chart";
       }
     });
   }
-
 
   _buildBottomItem(int index, String title, IconData data) {
     TextStyle textStyle = TextStyle(fontSize: 12.0, color: Colors.grey);
@@ -109,15 +98,13 @@ class _CountingScreenState extends State<CountingScreen> {
                     Icon(
                       data,
                       size: iconSize,
-                      color: currentIndex == index
-                          ? selectedIconColor
-                          : iconColor,
+                      color:
+                          currentIndex == index ? selectedIconColor : iconColor,
                     ),
                     Text(
                       title,
-                      style: currentIndex == index
-                          ? selectedTextStyle
-                          : textStyle,
+                      style:
+                          currentIndex == index ? selectedTextStyle : textStyle,
                     )
                   ],
                 ),
@@ -133,9 +120,10 @@ class _CountingScreenState extends State<CountingScreen> {
                 maxHeight: 80,
                 child: GestureDetector(
                   onTap: () {
-                          Navigator.push(
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddExpanse()),
+                      MaterialPageRoute(
+                          builder: (context) => AddExpanse(user: widget.user)),
                     );
                   },
                   child: Stack(
@@ -156,9 +144,11 @@ class _CountingScreenState extends State<CountingScreen> {
                           ),
                           child: GestureDetector(
                             onTap: () {
-                                              Navigator.push(
+                              Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => AddExpanse()),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AddExpanse(user: widget.user)),
                               );
                             },
                             child: SizedBox(
@@ -177,7 +167,7 @@ class _CountingScreenState extends State<CountingScreen> {
                         bottom: 17,
                         child: Text(
                           title,
-                          style: TextStyle(color: Colors.black,fontSize: 12.0),
+                          style: TextStyle(color: Colors.black, fontSize: 12.0),
                         ),
                       )
                     ],
@@ -187,4 +177,5 @@ class _CountingScreenState extends State<CountingScreen> {
             ),
           );
   }
+
 }

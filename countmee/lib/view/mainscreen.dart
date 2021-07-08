@@ -1,8 +1,7 @@
-// import 'package:countmee/model/food.dart';
-// import 'detailfood.dart';
 import 'package:countmee/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 import 'addmee.dart';
 import 'drawer.dart';
 import 'dart:convert';
@@ -94,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
           child: Column(
             children: [
               _productlist == null
-                  ? Flexible(child: Center(child: Text(_titlecenter)))
+                  ? Flexible(child: Center(child: JumpingText(_titlecenter)))
                   : Flexible(
                       child: Center(
                         child: GridView.count(
@@ -105,7 +104,7 @@ class _MainScreenState extends State<MainScreen> {
                             _productlist.length,
                             (index) {
                               return Padding(
-                                padding: EdgeInsets.fromLTRB(5, 6, 5, 6),
+                                padding: EdgeInsets.all(1.0),
                                 child: GestureDetector(
                                   onTap: () {
                                     _detailprinfo(

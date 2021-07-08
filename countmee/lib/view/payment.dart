@@ -26,7 +26,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           children: [
             Container(
               child: QrImage(
-                data: "1234567890",
+                data: "This is a example of wallet code.",
                 version: QrVersions.auto,
                 size: 200.0,
                 gapless: true,

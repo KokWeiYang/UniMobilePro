@@ -165,29 +165,38 @@ class _EditProfilesState extends State<EditProfiles> {
                           children: [
                             SizedBox(width: screenWidth * 0.950 / 2),
                             Expanded(
-                                flex: 4,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 150,
-                                      child: ElevatedButton(
-                                        onPressed: () async {
-                                          Delivery _del =
-                                              await Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => MapPage(),
-                                            ),
-                                          );
-                                          print(address);
-                                          setState(() {
-                                            _userlocctrl.text = _del.address;
-                                          });
-                                        },
-                                        child: Text("Map"),
+                              flex: 4,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 150,
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                          Colors.deepPurple[300],
+                                        ),
                                       ),
+                                      onPressed: () async {
+                                        Delivery _del =
+                                            await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => MapPage(),
+                                          ),
+                                        );
+                                        print(address);
+                                        setState(
+                                          () {
+                                            _userlocctrl.text = _del.address;
+                                          },
+                                        );
+                                      },
+                                      child: Text("Map"),
                                     ),
-                                  ],
-                                )),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: screenHeight / 22),

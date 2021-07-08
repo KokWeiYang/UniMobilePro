@@ -21,7 +21,7 @@ class _MapPageState extends State<MapPage> {
 
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _shopPosition = CameraPosition(
-    target: LatLng(5.3666652, 100.4666648), 
+    target: LatLng(5.3666652, 100.4666648),
     zoom: 17,
   );
 
@@ -38,6 +38,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Select Location'),
+        backgroundColor: Colors.deepPurple[300],
       ),
       body: Center(
         child: Container(
@@ -60,57 +61,64 @@ class _MapPageState extends State<MapPage> {
                 height: 5,
               ),
               Flexible(
-                  flex: 3,
-                  child: Container(
-                      width: screenWidth,
-                      decoration: new BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 10),
-                            Text(
-                                "Please select your location from map",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
-                            Container(
-                              width: screenWidth / 1.2,
-                              child: Divider(),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 6,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                            height: 70, child: Text(_address)),
-                                        
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                      height: 50,
-                                      child:
-                                          VerticalDivider(color: Colors.grey)),
-                                  Expanded(
-                                      flex: 4,
-                                      child: Container(
-                                          child: ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(
-                                                    context, _delivery);
-                                              },
-                                              child: Text("Save"))))
-                                ],
-                              ),
-                            ),
-                          ],
+                flex: 3,
+                child: Container(
+                  width: screenWidth,
+                  decoration: new BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10),
+                        Text("Please select your location from map",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Container(
+                          width: screenWidth / 1.2,
+                          child: Divider(),
                         ),
-                      )))
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 6,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                        height: 70, child: Text(_address)),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                  height: 50,
+                                  child: VerticalDivider(color: Colors.grey)),
+                              Expanded(
+                                flex: 4,
+                                child: Container(
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        Colors.deepPurple[300],
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context, _delivery);
+                                    },
+                                    child: Text("Save"),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
